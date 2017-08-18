@@ -1,0 +1,40 @@
+{
+  "name": "thaw-tic-tac-toe-engine",
+  "version": "0.0.0",
+  "description": "A Tic-Tac-Toe game engine packaged for npm",
+  "main": "index.js",
+  "homepage": "https://github.com/tom-weatherhead/thaw-tic-tac-toe-engine#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tom-weatherhead/thaw-tic-tac-toe-engine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tom-weatherhead/thaw-tic-tac-toe-engine/issues"
+  },
+  "scripts": {
+    "lint": "grunt eslint",
+    "mocha": "grunt mochaTest",
+    "nsp": "grunt nsp",
+    "start": "node index.js",
+    "test": "grunt test",
+    "watch": "grunt watch"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "keywords": [
+    "eslint",
+    "grunt",
+    "mocha",
+    "node",
+    "nsp",
+    "teapot",
+    "tic-tac-toe"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Tom Weatherhead",
+    "url": "https://github.com/tom-weatherhead"
+  }
+}
