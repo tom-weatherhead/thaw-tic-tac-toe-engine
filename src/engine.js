@@ -1,5 +1,8 @@
 'use strict';
 
+const victoryScore = 100;
+const defeatScore = -victoryScore;
+
 // class Player {
 // }
 
@@ -11,17 +14,17 @@ class Game {
 		this.boardWidth = 3;
 		this.boardHeight = 3;
 		this.boardArea = this.boardWidth * this.boardHeight;
-		this.boardIsSquare = (this.boardWidth === this.boardHeight);
+		this.boardIsSquare = this.boardWidth === this.boardHeight;
 		this.boardString = boardString;
 		// TODO? Ensure that maxPly is an integer ?
 		this.maxPly = maxPly;
 		this.emptyNumber = ' ';
-		this.victoryValue = 100;
-		this.defeatValue = -this.victoryValue;
+		this.victoryValue = victoryScore;
+		this.defeatValue = defeatScore;
 
 		if (typeof this.boardString !== 'string') {
 			throw new Error('boardString is not a string.');
-		} else if (this.boardString.length != this.boardArea) {
+		} else if (this.boardString.length !== this.boardArea) {
 			throw new Error('The length of boardString is not ' + this.boardArea + '.');
 		}
 
@@ -36,8 +39,9 @@ class Game {
 		this.spacePopulation = (this.boardString.match(/ /g) || []).length;
 
 		this.boardString = this.boardString.split('');
+		// This should be: this.boardArray = this.boardString.split('');
 
-		if (this.xPopulation + this.oPopulation + this.spacePopulation != this.boardArea) {
+		if (this.xPopulation + this.oPopulation + this.spacePopulation !== this.boardArea) {
 			throw Error('boardString contains one or more invalid characters.');
 		} else if (this.xPopulation === this.oPopulation) {
 			this.playerToStart = 'X';
@@ -55,23 +59,23 @@ class Game {
 			this.maxPly = this.spacePopulation;
 		}
 	}
-	
-	getSquareAt(row, col) {
+
+	getSquareAt (row, col) {
 		return this.boardString[row * this.boardWidth + col];
 	}
-	
-	setSquareAt(row, col, value) {
+
+	setSquareAt (row, col, value) {
 		// TODO? Ensure that value is one of ['X', 'O', ' '] ?
 		this.boardString[row * this.boardWidth + col] = value;
 	}
 
-	isVictory(player, row, column) {
+	isVictory (player, row, column) {
 		// 1) Check the specified row.
 		var victory = true;
 
 		for (var column2 = 0; column2 < this.boardWidth; ++column2) {
 
-			if (this.getSquareAt(row, column2) != player) {
+			if (this.getSquareAt(row, column2) !== player) {
 				victory = false;
 				break;
 			}
@@ -86,7 +90,7 @@ class Game {
 
 		for (var row2 = 0; row2 < this.boardHeight; ++row2) {
 
-			if (this.getSquareAt(row2, column) != player) {
+			if (this.getSquareAt(row2, column) !== player) {
 				victory = false;
 				break;
 			}
@@ -98,14 +102,15 @@ class Game {
 
 		if (this.boardIsSquare) {
 			// The board is square, so there are two diagonals that we can check.
+			let i;
 
-			if (row == column) {
+			if (row === column) {
 				// 3) Check the primary diagonal.
 				victory = true;
 
-				for (var i = 0; i < this.boardHeight; ++i) {
+				for (i = 0; i < this.boardHeight; ++i) {
 
-					if (this.getSquareAt(i, i) != player) {
+					if (this.getSquareAt(i, i) !== player) {
 						victory = false;
 						break;
 					}
@@ -116,13 +121,13 @@ class Game {
 				}
 			}
 
-			if (row + column == this.boardHeight - 1) {
+			if (row + column === this.boardHeight - 1) {
 				// 4) Check the secondary diagonal.
 				victory = true;
 
-				for (var i = 0; i < this.boardHeight; ++i) {
+				for (i = 0; i < this.boardHeight; ++i) {
 
-					if (this.getSquareAt(i, this.boardWidth - 1 - i) != player) {
+					if (this.getSquareAt(i, this.boardWidth - 1 - i) !== player) {
 						victory = false;
 						break;
 					}
@@ -137,50 +142,53 @@ class Game {
 		return false;
 	}
 
-	placePiece(player, row, column) {
+	placePiece (player, row, column) {
 		// If player is X or O, the square being written to must be empty just before the move is made.
 		// If player is Empty, the square being written to must be non-empty just before the move is made, and displayMove must be false.
 
 		if (row < 0 || row >= this.boardHeight) {
-			console.log("placePiece() : row", row, "is out of range; this.boardHeight ==", this.boardHeight);
-			return false;
+			// console.log("placePiece() : row", row, "is out of range; this.boardHeight ==", this.boardHeight);
+			// return false;
+			throw new Error('placePiece() : row ' + row + ' is out of range; this.boardHeight == ' + this.boardHeight);
 		}
 
 		if (column < 0 || column >= this.boardWidth) {
-			console.log("placePiece() : column", column, "is out of range; this.boardWidth ==", this.boardWidth);
-			return false;
+			// console.log("placePiece() : column", column, "is out of range; this.boardWidth ==", this.boardWidth);
+			// return false;
+			throw new Error('placePiece() : column ' + column + ' is out of range; this.boardWidth == ' + this.boardWidth);
 		}
 
 		var oldSquareContent = this.getSquareAt(row, column);
 
-		if (player != this.emptyNumber) {
+		if (player !== this.emptyNumber) {
 
-			if (oldSquareContent != this.emptyNumber) {
-				console.log("placePiece() : Attempted to write an X or an O into a non-empty square.");
-				return false;
+			if (oldSquareContent !== this.emptyNumber) {
+				// console.log("placePiece() : Attempted to write an X or an O into a non-empty square.");
+				// return false;
+				throw new Error('placePiece() : Attempted to write an X or an O into a non-empty square.');
 			}
-		} else {
-
-			if (oldSquareContent == this.emptyNumber) {
-				console.log("placePiece() : Attempted to erase an already-empty square.");
-				return false;
-			}
+		} else if (oldSquareContent === this.emptyNumber) {
+			// console.log("placePiece() : Attempted to erase an already-empty square.");
+			// return false;
+			throw new Error('placePiece() : Attempted to erase an already-empty square.');
 		}
 
 		this.setSquareAt(row, column, player);
 
-		if (player == this.emptyNumber) {
+		if (player === this.emptyNumber) {
 			// --this.boardPopulation;
 			this.boardPopulation = this.boardPopulation - 1;
+
 			return false;
 		} else {
 			// ++this.boardPopulation;
 			this.boardPopulation = this.boardPopulation + 1;
+
 			return this.isVictory(player, row, column); // This can return true for real or speculative moves.
 		}
 	}
 
-	getNumOpenLines(opponent) {
+	getNumOpenLines (opponent) {
 		var numOpenLines = this.boardWidth + this.boardHeight + (this.boardIsSquare ? 2 : 0);
 		let row;
 		let column;
@@ -191,7 +199,7 @@ class Game {
 
 			for (column = 0; column < this.boardWidth; ++column) {
 
-				if (this.getSquareAt(row, column) == opponent) {
+				if (this.getSquareAt(row, column) === opponent) {
 					// --numOpenLines;
 					numOpenLines = numOpenLines - 1;
 					break;
@@ -205,7 +213,7 @@ class Game {
 
 			for (row = 0; row < this.boardHeight; ++row) {
 
-				if (this.getSquareAt(row, column) == opponent) {
+				if (this.getSquareAt(row, column) === opponent) {
 					// --numOpenLines;
 					numOpenLines = numOpenLines - 1;
 					break;
@@ -218,7 +226,7 @@ class Game {
 
 			for (row = 0; row < this.boardWidth; ++row) {
 
-				if (this.getSquareAt(row, row) == opponent) {
+				if (this.getSquareAt(row, row) === opponent) {
 					// --numOpenLines;
 					numOpenLines = numOpenLines - 1;
 					break;
@@ -229,7 +237,7 @@ class Game {
 
 			for (row = 0; row < this.boardWidth; ++row) {
 
-				if (this.getSquareAt(row, this.boardWidth - 1 - row) == opponent) {
+				if (this.getSquareAt(row, this.boardWidth - 1 - row) === opponent) {
 					// --numOpenLines;
 					numOpenLines = numOpenLines - 1;
 					break;
@@ -240,16 +248,14 @@ class Game {
 		return numOpenLines;
 	}
 
-	getBoardValue(player, opponent) {
+	getBoardValue (player, opponent) {
 		return this.getNumOpenLines(player) - this.getNumOpenLines(opponent);
 	}
 
-	findBestMove(player, ply,
-		bestUncleRecursiveScore) {	// For alpha-beta pruning.
-
-		var returnBestCoordinates = (ply === this.maxPly);
+	findBestMove (player, ply, bestUncleRecursiveScore) {	// For alpha-beta pruning.
+		var returnBestCoordinates = ply === this.maxPly;
 		let opponent;
-		
+
 		if (player === 'X') {
 			opponent = 'O';
 		} else if (player === 'O') {
@@ -258,58 +264,44 @@ class Game {
 			throw new Error('Cannot calculate the opponent of \'' + player + '\'.');
 		}
 
-		var bestMoveValue = this.defeatValue - 1;     // Worse than the worst possible move value.
+		var bestMoveValue = this.defeatValue - 1;		// Worse than the worst possible move value.
 		var bestMoveList = returnBestCoordinates ? [] : null;
 		var doneSearching = false;
 
-		for (var row = 0; row < this.boardHeight && !doneSearching; ++row)
-		{
+		for (var row = 0; row < this.boardHeight && !doneSearching; ++row) {
 
-			for (var column = 0; column < this.boardWidth; ++column)
-			{
-				var moveValue = 0;
+			for (var column = 0; column < this.boardWidth; ++column) {
+				//var moveValue = 0;
+				let moveValue;
 
 				if (this.getSquareAt(row, column) !== this.emptyNumber) {
 					continue;
 				}
 
-				if (this.placePiece(player, row, column)) // I.e. if this move results in immediate victory.
-				{
+				if (this.placePiece(player, row, column)) { // I.e. if this move results in immediate victory.
 					moveValue = this.victoryValue;
-				}
-				else if (this.boardPopulation < this.boardArea && ply > 1)
-				{
+				} else if (this.boardPopulation < this.boardArea && ply > 1) {
 					moveValue = -this.findBestMove(opponent, ply - 1, bestMoveValue);
-				}
-				else
-				{
+				} else {
 					moveValue = this.getBoardValue(player, opponent);
 				}
 
 				this.placePiece(this.emptyNumber, row, column);	// Erase the piece that was just placed.
 
-				if (moveValue == bestMoveValue && returnBestCoordinates)
-				{
+				if (moveValue === bestMoveValue && returnBestCoordinates) {
 					bestMoveList.push({row: row, column: column});
-				}
-				else if (moveValue > bestMoveValue)
-				{
+				} else if (moveValue > bestMoveValue) {
 					bestMoveValue = moveValue;
 
-					if (bestMoveValue > -bestUncleRecursiveScore) 
-					{
+					if (bestMoveValue > -bestUncleRecursiveScore) {
 						// Alpha-beta pruning.  Because of the initial parameters for the top-level move, this break is never executed for the top-level move.
 						doneSearching = true;
 						break; // ie. return.
-					}
-					else if (returnBestCoordinates)
-					{
+					} else if (returnBestCoordinates) {
 						// bestMoveList = [];
 						// bestMoveList.push({row: row, column: column});
 						bestMoveList = [{row: row, column: column}];
-					}
-					else if (bestMoveValue == this.victoryValue)
-					{
+					} else if (bestMoveValue === this.victoryValue) {
 						// Prune the search tree, since we are not constructing a list of all of the best moves.
 						doneSearching = true;
 						break;
@@ -320,29 +312,29 @@ class Game {
 
 		var bestMoveData = bestMoveValue;
 
-		if (bestMoveValue < this.defeatValue || bestMoveValue > this.victoryValue)
-		{
-			console.error('this.defeatValue is:', this.defeatValue);
-			console.error('bestMoveValue is:', bestMoveValue);
-			console.error('this.victoryValue is:', this.victoryValue);
-			throw new Error("FindBestMove() : bestMoveValue is out of range.");
-		}
-		else if (!returnBestCoordinates)
-		{
-			;
-		}
-		else if (bestMoveList.length == 0)
-		{
-			throw new Error("FindBestMove() : The bestMoveList is empty at the end of the method.");
-		}
-		else
-		{
+		if (bestMoveValue < this.defeatValue || bestMoveValue > this.victoryValue) {
+			// console.error('this.defeatValue is:', this.defeatValue);
+			// console.error('bestMoveValue is:', bestMoveValue);
+			// console.error('this.victoryValue is:', this.victoryValue);
+			throw new Error('findBestMove() : bestMoveValue is out of range.');
+		} else if (!returnBestCoordinates) {
+		} else if (bestMoveList.length === 0) {
+			throw new Error('findBestMove() : The bestMoveList is empty at the end of the method.');
+		} else {
 			var i = parseInt(Math.random() * bestMoveList.length, 10);
 			var bestMove = bestMoveList[i];
 
 			bestMoveData = {
 				bestRow: bestMove.row,
 				bestColumn: bestMove.column,
+				bestMoveList: bestMoveList.sort(function (move1, move2) {
+
+					if (move1.row !== move2.row) {
+						return move1.row - move2.row;
+					} else {
+						return move1.column - move2.column;
+					}
+				}),
 				bestScore: bestMoveValue,
 				player: player
 			};
@@ -352,7 +344,7 @@ class Game {
 	}
 }
 
-function findBestMoveFoo(boardString, maxPly) {
+function findBestMove (boardString, maxPly) {
 	// boardString must have a length of exactly 9 characters.
 	let game = new Game(boardString, maxPly);
 
@@ -361,7 +353,9 @@ function findBestMoveFoo(boardString, maxPly) {
 }
 
 module.exports = {
-	findBestMove: findBestMoveFoo
+	victoryScore: victoryScore,
+	defeatScore: defeatScore,
+	findBestMove: findBestMove
 };
 
 // Or just: module.exports = findBestMove;

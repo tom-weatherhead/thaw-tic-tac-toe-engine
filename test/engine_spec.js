@@ -1,70 +1,81 @@
-// node-js-express-template/test/app_spec.js
+// thaw-tic-tac-toe-engine/test/engine_spec.js
 
-// Use chai and chai-http. See https://groundberry.github.io/development/2016/12/10/testing-express-with-mocha-and-chai.html and our repo test-express-mocha-chai-perello
-
+// Chai.js cheat sheet: See http://ricostacruz.com/cheatsheets/chai.html
 const chai = require('chai');
-const chaiHttp = require('chai-http');
-
-const app = require('../app');
-
-chai.use(chaiHttp);
-
 const expect = chai.expect;
 
+const engine = require('..');
+
 describe('App', function () {
-	describe('/get', function () {
-		it('responds with status 200', function (done) {
-			chai.request(app)
-				.get('/')
-				.end(function (err, res) {
-					expect(err).to.be.null;		// eslint-disable-line no-unused-expressions
-					expect(res).to.have.status(200);
-					// expect(res.text).to.equal('somevalue');
-					done();
-				});
+	describe('SmokeTest00ImmediateVictory', function () {
+		it('Rocks!', function (done) {
+			// Arrange
+			// X . X
+			// . . .
+			// O . O
+			const boardString = 'X X   O O';
+			const maxPly = 1;
+
+			// Act
+			const result = engine.findBestMove(boardString, maxPly);
+
+			// Assert
+			expect(result).to.be.not.null;		// eslint-disable-line no-unused-expressions
+			expect(result.bestScore).to.be.equal(engine.victoryScore);
+			expect(result.bestMoveList).to.be.deep.equal([{ row: 0, column: 1 }]);
+			expect(result.bestRow).to.be.equal(0);
+			expect(result.bestColumn).to.be.equal(1);
+			done();
 		});
 	});
 
-	describe('/get notfound', function () {
-		it('responds with status 404', function (done) {
-			chai.request(app)
-				.get('/notfound')
-				.end(function (err, res) {
-					expect(err).to.not.be.null;		// eslint-disable-line no-unused-expressions
-					expect(res).to.have.status(404);
-					// expect(res.text).to.equal('somevalue');
-					done();
-				});
+	describe('SmokeTest02BlockingMove', function () {
+		it('Rocks!', function (done) {
+			// Arrange
+			// X . X
+			// . . .
+			// O . .
+			const boardString = 'X X   O  ';
+			const maxPly = 2;
+
+			// Act
+			const result = engine.findBestMove(boardString, maxPly);
+
+			// Assert
+			expect(result).to.be.not.null;		// eslint-disable-line no-unused-expressions
+			expect(result.bestScore).to.satisfy(bestScore => bestScore > engine.defeatScore);
+			expect(result.bestMoveList).to.be.deep.equal([{ row: 0, column: 1 }]);
+			expect(result.bestRow).to.be.equal(0);
+			expect(result.bestColumn).to.be.equal(1);
+			done();
 		});
 	});
 
-	describe('/get servererror', function () {
-		it('responds with status 500', function (done) {
-			chai.request(app)
-				.get('/servererror')
-				.end(function (err, res) {
-					expect(err).to.not.be.null;		// eslint-disable-line no-unused-expressions
-					expect(res).to.have.status(500);
-					// expect(res.text).to.equal('somevalue');
-					done();
-				});
-		});
-	});
+	describe('VictoryTest1', function () {
+		it('Rocks!', function (done) {
+			// Arrange
+			// X X .
+			// . . .
+			// O O .
+			const boardString = 'XX    OO ';
+			const maxPly = 3;
 
-	describe('/get teapot', function () {
-		it('responds with status 200', function (done) {
-			chai.request(app)
-				.get('/teapot')
-				.end(function (err, res) {
-					// All three of these lines work:
-					// expect(err).not.to.be.null;		// eslint-disable-line no-unused-expressions
-					expect(err).to.not.be.null;		// eslint-disable-line no-unused-expressions
-					// expect(err).to.be.not.null;		// eslint-disable-line no-unused-expressions
+			// Act
+			let result = engine.findBestMove(boardString, maxPly);
 
-					expect(res).to.have.status(418);
-					expect(res.text).to.equal('I\'m a teapot');
-					done();
-				});
+			// Assert
+			// Assert.AreEqual(4, gameEngine.boardPopulation);
+			// Assert.AreEqual(victoryValue, bestMoveValue);
+			// Assert.AreEqual(2, bestMoveList.Count);
+			// Assert.IsTrue(bestMoveList.Contains(2));
+			// Assert.IsTrue(bestMoveList.Contains(8));
+
+			// Error: mocha exploded! assert is not defined.
+			// assert.equal(result !== null);
+			// expect(result).not.null;		// eslint-disable-line no-unused-expressions
+			// expect(result).to.not.be.null;		// eslint-disable-line no-unused-expressions
+			expect(result).to.be.not.null;		// eslint-disable-line no-unused-expressions
+			done();
 		});
 	});
 });
@@ -73,323 +84,121 @@ describe('App', function () {
 
 // #define USE_OPEN_LINES_HEURISTIC
 
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Text;
-// using NUnit.Framework;
-// using Rhino.Mocks;
-// using WPFTicTacToe.GameEngine;
-// using GameEngine = WPFTicTacToe.GameEngine.GameEngine;
-
-// namespace WPFTicTacToe.GameEngine.Tests
+// [Test]
+// public void VictoryTest2()
 // {
-    // [TestFixture]
-    // public class GameEngineTests
-    // {
-        // private IGameWindow gameWindow;
-// #if USE_OPEN_LINES_HEURISTIC
-        // private const int victoryValue = 100;
-// #else
-        // private const int victoryValue = 1;
-// #endif
+// O . .
+// . O X
+// . X .
 
-        // [SetUp]
-        // public void SetupTest()
-        // {
-            // See http://wrightthisblog.blogspot.ca/2011/03/using-rhinomocks-quick-guide-to.html
-            // gameWindow = MockRepository.GenerateMock<IGameWindow>();
-        // }
+// int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 3, true, bestMoveList, out bestRow, out bestColumn);
 
-        // [Test]
-        // public void EngineCreationTest()
-        // {
-            // Arrange
-            // var boardDimension = 3;
+// Assert
+// Assert.AreEqual(4, gameEngine.boardPopulation);
+// Assert.AreEqual(victoryValue, bestMoveValue);
+// Assert.AreEqual(1, bestMoveList.Count);
+// Assert.IsTrue(bestMoveList.Contains(8));
+// }
 
-            // Act
-            // var gameEngine = new GameEngine(gameWindow, boardDimension);
+// [Test]
+// public void VictoryTest3()
+// {
+// X . .
+// . . .
+// . O .
 
-            // Assert
-            // Assert.IsNotNull(gameEngine.board);
-            // Assert.AreEqual(boardDimension * boardDimension, gameEngine.board.Length);
+// int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 5, true, bestMoveList, out bestRow, out bestColumn);
 
-            // foreach (var squareContent in gameEngine.board)
-            // {
-                // Assert.AreEqual(SquareContentType.EmptySquare, squareContent);
-            // }
+// Assert
+// Assert.AreEqual(2, gameEngine.boardPopulation);
+// Assert.AreEqual(victoryValue, bestMoveValue);
+// Assert.AreEqual(3, bestMoveList.Count);
+// Assert.IsTrue(bestMoveList.Contains(2));
+// Assert.IsTrue(bestMoveList.Contains(4));
+// Assert.IsTrue(bestMoveList.Contains(6));
+// }
 
-            // Assert.AreEqual(0, gameEngine.boardPopulation);
-            // Assert.AreEqual(SquareContentType.X, gameEngine.currentPlayer);
-        // }
+// [Test]
+// public void VictoryTest4()
+// {
+// . X .    X X .    X X O    X X O
+// . . . -> . . . -> . . . -> . X .
+// O . .    O . .    O . .    O . .
 
-        // [Test]
-        // public void VictoryTest1()
-        // {
-            // X X .
-            // . . .
-            // O O .
+// gameEngine.PlacePiece(SquareContentType.X, 0, 1, false);
+// gameEngine.PlacePiece(SquareContentType.O, 2, 0, false);
 
-            // Arrange
-            // var boardDimension = 3;
-            // var gameEngine = new GameEngine(gameWindow, boardDimension);
+// Act
+// int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 5, true, bestMoveList, out bestRow, out bestColumn);
 
-            // gameEngine.PlacePiece(SquareContentType.X, 0, 0, false);
-            // gameEngine.PlacePiece(SquareContentType.O, 2, 0, false);
-            // gameEngine.PlacePiece(SquareContentType.X, 0, 1, false);
-            // gameEngine.PlacePiece(SquareContentType.O, 2, 1, false);
+// Assert
+// Assert.AreEqual(2, gameEngine.boardPopulation);
+// Assert.AreEqual(victoryValue, bestMoveValue);
+// Assert.AreEqual(1, bestMoveList.Count);
+// Assert.IsTrue(bestMoveList.Contains(0));
+// }
 
-            // Act
-            // int bestRow;
-            // int bestColumn;
-            // var bestMoveList = new List<int>();
-            // int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 3, true, bestMoveList, out bestRow, out bestColumn);
+// [Test]
+// public void VictoryTest5()
+// {
+// X O .
+// . . .
+// . . .
 
-            // Assert
-            // Assert.AreEqual(4, gameEngine.boardPopulation);
-            // Assert.AreEqual(victoryValue, bestMoveValue);
-            // Assert.AreEqual(2, bestMoveList.Count);
-            // Assert.IsTrue(bestMoveList.Contains(2));
-            // Assert.IsTrue(bestMoveList.Contains(8));
-        // }
+// int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 5, true, bestMoveList, out bestRow, out bestColumn);
 
-        // [Test]
-        // public void VictoryTest2()
-        // {
-            // O . .
-            // . O X
-            // . X .
+// Assert
+// Assert.AreEqual(2, gameEngine.boardPopulation);
+// Assert.AreEqual(victoryValue, bestMoveValue);
+// Assert.AreEqual(3, bestMoveList.Count);
+// Assert.IsTrue(bestMoveList.Contains(3));
+// Assert.IsTrue(bestMoveList.Contains(4));
+// Assert.IsTrue(bestMoveList.Contains(6));
+// }
 
-            // Arrange
-            // var boardDimension = 3;
-            // var gameEngine = new GameEngine(gameWindow, boardDimension);
+// [Test]
+// public void NoVictoryTest1()
+// {
+// O X .
+// . . .
+// . . .
 
-            // gameEngine.PlacePiece(SquareContentType.X, 1, 2, false);
-            // gameEngine.PlacePiece(SquareContentType.O, 1, 1, false);
-            // gameEngine.PlacePiece(SquareContentType.X, 2, 1, false);
-            // gameEngine.PlacePiece(SquareContentType.O, 0, 0, false);
+// int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 5, false, null, out bestRow, out bestColumn);
 
-            // Act
-            // int bestRow;
-            // int bestColumn;
-            // var bestMoveList = new List<int>();
-            // int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 3, true, bestMoveList, out bestRow, out bestColumn);
+// Assert
+// Assert.AreEqual(2, gameEngine.boardPopulation);
+// Assert.IsTrue(bestMoveValue > GameEngine.defeatValue);
+// Assert.IsTrue(bestMoveValue < GameEngine.victoryValue);
+// }
 
-            // Assert
-            // Assert.AreEqual(4, gameEngine.boardPopulation);
-            // Assert.AreEqual(victoryValue, bestMoveValue);
-            // Assert.AreEqual(1, bestMoveList.Count);
-            // Assert.IsTrue(bestMoveList.Contains(8));
-        // }
+// [Test]
+// public void VictoryTest6()
+// {
+// O X .
+// . . X
+// . . .
 
-        // [Test]
-        // public void VictoryTest3()
-        // {
-            // X . .
-            // . . .
-            // . O .
+// int bestMoveValue = gameEngine.FindBestMove(SquareContentType.O, 5, true, bestMoveList, out bestRow, out bestColumn);
 
-            // Arrange
-            // var boardDimension = 3;
-            // var gameEngine = new GameEngine(gameWindow, boardDimension);
+// Assert
+// Assert.AreEqual(3, gameEngine.boardPopulation);
+// Assert.AreEqual(victoryValue, bestMoveValue);
+// Assert.AreEqual(1, bestMoveList.Count);
+// Assert.IsTrue(bestMoveList.Contains(6));
+// }
 
-            // gameEngine.PlacePiece(SquareContentType.X, 0, 0, false);
-            // gameEngine.PlacePiece(SquareContentType.O, 2, 1, false);
+// [Test]
+// public void NoVictoryTest2()
+// {
+// O X .
+// . . .
+// . . .
 
-            // Act
-            // int bestRow;
-            // int bestColumn;
-            // var bestMoveList = new List<int>();
-            // int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 5, true, bestMoveList, out bestRow, out bestColumn);
+// int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 6, true, bestMoveList, out bestRow, out bestColumn);
 
-            // Assert
-            // Assert.AreEqual(2, gameEngine.boardPopulation);
-            // Assert.AreEqual(victoryValue, bestMoveValue);
-            // Assert.AreEqual(3, bestMoveList.Count);
-            // Assert.IsTrue(bestMoveList.Contains(2));
-            // Assert.IsTrue(bestMoveList.Contains(4));
-            // Assert.IsTrue(bestMoveList.Contains(6));
-        // }
-
-        // [Test]
-        // public void VictoryTest4()
-        // {
-            // . X .    X X .    X X O    X X O
-            // . . . -> . . . -> . . . -> . X .
-            // O . .    O . .    O . .    O . .
-
-            // Arrange
-            // var boardDimension = 3;
-            // var gameEngine = new GameEngine(gameWindow, boardDimension);
-
-            // gameEngine.PlacePiece(SquareContentType.X, 0, 1, false);
-            // gameEngine.PlacePiece(SquareContentType.O, 2, 0, false);
-
-            // Act
-            // int bestRow;
-            // int bestColumn;
-            // var bestMoveList = new List<int>();
-            // int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 5, true, bestMoveList, out bestRow, out bestColumn);
-
-            // Assert
-            // Assert.AreEqual(2, gameEngine.boardPopulation);
-            // Assert.AreEqual(victoryValue, bestMoveValue);
-            // Assert.AreEqual(1, bestMoveList.Count);
-            // Assert.IsTrue(bestMoveList.Contains(0));
-        // }
-
-        // [Test]
-        // public void VictoryTest5()
-        // {
-            // X O .
-            // . . .
-            // . . .
-
-            // Arrange
-            // var boardDimension = 3;
-            // var gameEngine = new GameEngine(gameWindow, boardDimension);
-
-            // gameEngine.PlacePiece(SquareContentType.X, 0, 0, false);
-            // gameEngine.PlacePiece(SquareContentType.O, 0, 1, false);
-
-            // Act
-            // int bestRow;
-            // int bestColumn;
-            // var bestMoveList = new List<int>();
-            // int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 5, true, bestMoveList, out bestRow, out bestColumn);
-
-            // Assert
-            // Assert.AreEqual(2, gameEngine.boardPopulation);
-            // Assert.AreEqual(victoryValue, bestMoveValue);
-            // Assert.AreEqual(3, bestMoveList.Count);
-            // Assert.IsTrue(bestMoveList.Contains(3));
-            // Assert.IsTrue(bestMoveList.Contains(4));
-            // Assert.IsTrue(bestMoveList.Contains(6));
-        // }
-
-        // [Test]
-        // public void NoVictoryTest1()
-        // {
-            // O X .
-            // . . .
-            // . . .
-
-            // Arrange
-            // var boardDimension = 3;
-            // var gameEngine = new GameEngine(gameWindow, boardDimension);
-
-            // gameEngine.PlacePiece(SquareContentType.X, 0, 1, false);
-            // gameEngine.PlacePiece(SquareContentType.O, 0, 0, false);
-
-            // Act
-            // int bestRow;
-            // int bestColumn;
-            // int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 5, false, null, out bestRow, out bestColumn);
-
-            // Assert
-            // Assert.AreEqual(2, gameEngine.boardPopulation);
-            // Assert.IsTrue(bestMoveValue > GameEngine.defeatValue);
-            // Assert.IsTrue(bestMoveValue < GameEngine.victoryValue);
-        // }
-
-        // [Test]
-        // public void VictoryTest6()
-        // {
-            // O X .
-            // . . X
-            // . . .
-
-            // Arrange
-            // var boardDimension = 3;
-            // var gameEngine = new GameEngine(gameWindow, boardDimension);
-
-            // gameEngine.PlacePiece(SquareContentType.X, 0, 1, false);
-            // gameEngine.PlacePiece(SquareContentType.O, 0, 0, false);
-            // gameEngine.PlacePiece(SquareContentType.X, 1, 2, false);
-
-            // Act
-            // int bestRow;
-            // int bestColumn;
-            // var bestMoveList = new List<int>();
-            // int bestMoveValue = gameEngine.FindBestMove(SquareContentType.O, 5, true, bestMoveList, out bestRow, out bestColumn);
-
-            // Assert
-            // Assert.AreEqual(3, gameEngine.boardPopulation);
-            // Assert.AreEqual(victoryValue, bestMoveValue);
-            // Assert.AreEqual(1, bestMoveList.Count);
-            // Assert.IsTrue(bestMoveList.Contains(6));
-        // }
-
-        // [Test]
-        // public void NoVictoryTest2()
-        // {
-            // O X .
-            // . . .
-            // . . .
-
-            // Arrange
-            // var boardDimension = 3;
-            // var gameEngine = new GameEngine(gameWindow, boardDimension);
-
-            // gameEngine.PlacePiece(SquareContentType.X, 0, 1, false);
-            // gameEngine.PlacePiece(SquareContentType.O, 0, 0, false);
-
-            // Act
-            // int bestRow;
-            // int bestColumn;
-            // var bestMoveList = new List<int>();
-            // int bestMoveValue = gameEngine.FindBestMove(SquareContentType.X, 6, true, bestMoveList, out bestRow, out bestColumn);
-
-            // Assert
-            // Assert.AreEqual(2, gameEngine.boardPopulation);
-            // Assert.AreEqual(0, bestMoveValue);
-            // Assert.IsFalse(bestMoveList.Contains(5));    // This would be a losing move.
-            // Assert.IsFalse(bestMoveList.Contains(7));    // This would be a losing move.
-        // }
-
-        // [Test]
-        // public void BoardSerializationTest()
-        // {
-            // Arrange
-            // var boardDimension = 3;
-            // var boardArea = boardDimension * boardDimension;
-            // var sb = new StringBuilder();
-            // var r = new Random();
-            // var boardPopulation = 0;
-
-            // for (int i = 0; i < boardArea; ++i)
-            // {
-                // char c;
-
-                // switch (r.Next(3))
-                // {
-                    // case 1:
-                        // c = 'X';
-                        // ++boardPopulation;
-                        // break;
-
-                    // case 2:
-                        // c = 'O';
-                        // ++boardPopulation;
-                        // break;
-
-                    // default:
-                        // c = ' ';
-                        // break;
-                // }
-
-                // sb.Append(c);
-            // }
-
-            // var inputBoardAsString = sb.ToString();
-
-            // Act
-            // var gameEngine = new GameEngine(gameWindow, boardDimension, inputBoardAsString);
-            // var outputBoardAsString = gameEngine.GetBoardAsString();
-
-            // Assert
-            // Assert.AreEqual(inputBoardAsString, outputBoardAsString);
-            // Assert.AreEqual(boardPopulation, gameEngine.boardPopulation);
-        // }
-    // }
+// Assert
+// Assert.AreEqual(2, gameEngine.boardPopulation);
+// Assert.AreEqual(0, bestMoveValue);
+// Assert.IsFalse(bestMoveList.Contains(5));    // This would be a losing move.
+// Assert.IsFalse(bestMoveList.Contains(7));    // This would be a losing move.
 // }
