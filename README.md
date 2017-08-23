@@ -1,5 +1,5 @@
 # thaw-tic-tac-toe-engine
-A Node.js Tic-Tac-Toe game engine with alpha-beta pruning, packaged for npm
+A Node.js Tic-Tac-Toe game engine with alpha-beta pruning, packaged for npm.
 
 Installation Instructions:
 
