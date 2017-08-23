@@ -5,7 +5,7 @@ module.exports = function (grunt) {
 			target: [
 				'*.js',
 				'src/*.js',
-				'test/*_spec.js'
+				'test/*.js'
 			]
 		},
 		mochaTest: {
@@ -24,6 +24,7 @@ module.exports = function (grunt) {
 				files: [
 					'*.js',
 					'src/*.js'
+					// , 'test/*.js' ?
 				],
 				tasks: 'build'
 			},
