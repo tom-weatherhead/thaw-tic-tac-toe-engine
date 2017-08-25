@@ -1,7 +1,7 @@
 {
   "name": "thaw-tic-tac-toe-engine",
   "version": "0.1.0",
-  "description": "A Node.js Tic-Tac-Toe game engine with alpha-beta pruning, packaged for npm",
+  "description": "A Node.js Tic-Tac-Toe game engine with alpha-beta pruning, packaged for npm.",
   "main": "src/engine.js",
   "homepage": "https://github.com/tom-weatherhead/thaw-tic-tac-toe-engine#readme",
   "repository": {
