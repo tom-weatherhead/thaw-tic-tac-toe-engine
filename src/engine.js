@@ -4,6 +4,11 @@
 
 'use strict';
 
+const test_descriptors = require('./test_descriptors');
+
+const minMaxPly = 1;
+const maxMaxPly = 6;
+
 const victoryScore = 100;
 const defeatScore = -victoryScore;
 
@@ -334,7 +339,10 @@ function findBestMove (boardString, maxPly) {
 }
 
 module.exports = {
+	minMaxPly: minMaxPly,
+	maxMaxPly: maxMaxPly,
 	victoryScore: victoryScore,
 	defeatScore: defeatScore,
+	test_descriptors: test_descriptors,
 	findBestMove: findBestMove
 };
