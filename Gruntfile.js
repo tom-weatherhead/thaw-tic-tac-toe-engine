@@ -18,24 +18,6 @@ module.exports = function (grunt) {
 		},
 		nsp: {
 			package: grunt.file.readJSON('package.json')
-		},
-		watch: {
-			js: {
-				files: [
-					'*.js',
-					'src/*.js'
-					// , 'test/*.js' ?
-				],
-				tasks: 'build'
-			},
-			pkg: {
-				files: 'package.json',
-				tasks: 'build'
-			},
-			readme: {
-				files: 'README.md',
-				tasks: 'build'
-			}
 		}
 	});
 
@@ -43,7 +25,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-eslint');
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-nsp');
-	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Aliases
 	grunt.registerTask('test', ['eslint', 'mochaTest', 'nsp']);

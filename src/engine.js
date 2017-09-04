@@ -4,10 +4,11 @@
 
 'use strict';
 
+const config = require('../config/config');
 const test_descriptors = require('./test_descriptors');
 
-const minMaxPly = 1;
-const maxMaxPly = 6;
+const minMaxPly = config.minMaxPly || 1;
+const maxMaxPly = config.maxMaxPly || 6;
 
 const victoryScore = 100;
 const defeatScore = -victoryScore;
@@ -35,10 +36,6 @@ class Game {
 		}
 
 		// Each character must be an 'X', an 'O', or a space. If any other characters are encountered, return an error.
-
-		// If (the X population) == (the O population), then it is X's move;
-		// else if (the X population) == (the O population) + 1, then it is O's move;
-		// else return an error.
 
 		this.xPopulation = (this.boardString.match(/X/g) || []).length;
 		this.oPopulation = (this.boardString.match(/O/g) || []).length;
@@ -240,7 +237,7 @@ class Game {
 		return numOpenLines;
 	}
 
-	getBoardValue (player, opponent) {
+	getBoardValue (player, opponent) {		// Our heuristic function
 		return this.getNumOpenLines(player) - this.getNumOpenLines(opponent);
 	}
 

@@ -1,7 +1,7 @@
 {
   "name": "thaw-tic-tac-toe-engine",
-  "version": "0.1.0",
-  "description": "A Node.js Tic-Tac-Toe game engine with alpha-beta pruning, packaged for npm.",
+  "version": "0.2.0",
+  "description": "A Node.js Tic-Tac-Toe game engine with alpha-beta pruning and a heuristic, packaged for npm.",
   "main": "src/engine.js",
   "homepage": "https://github.com/tom-weatherhead/thaw-tic-tac-toe-engine#readme",
   "repository": {
@@ -15,9 +15,7 @@
     "lint": "grunt eslint",
     "mocha": "grunt mochaTest",
     "nsp": "grunt nsp",
-    "smoke": "node test/smoke_test.js",
-    "test": "grunt test",
-    "watch": "grunt watch"
+    "test": "grunt test"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -25,7 +23,6 @@
     "chai": "^4.1.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
-    "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^20.0.0",
     "grunt-mocha-test": "^0.13.2",
     "grunt-nsp": "^2.3.1",
@@ -36,6 +33,7 @@
     "node": ">=8.0.0"
   },
   "keywords": [
+    "chai",
     "eslint",
     "grunt",
     "mocha",
