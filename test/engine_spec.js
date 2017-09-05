@@ -24,14 +24,12 @@ describe('App', function () {
 					expect(result).to.be.not.null;		// eslint-disable-line no-unused-expressions
 					expect(testDescriptor.verificationFunction).to.be.not.null;		// eslint-disable-line no-unused-expressions
 					testDescriptor.verificationFunction(engine, expect, result);
-					done();
 				} catch (error) {
-					// console.error('typeof error is', typeof error);
-					// console.error('error.message is', error.message);
-					expect(testDescriptor.errorHandlingFunction).to.be.not.null;		// eslint-disable-line no-unused-expressions
-					testDescriptor.errorHandlingFunction(engine, expect, error);
+					expect(testDescriptor.errorHandlingFunction).to.be.not.null;	// eslint-disable-line no-unused-expressions
+					testDescriptor.errorHandlingFunction(engine, expect, error.message);
+				} finally {
 					done();
-				} // finally { ... } ?
+				}
 			});
 		});
 	});

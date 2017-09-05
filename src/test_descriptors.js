@@ -154,7 +154,7 @@ module.exports = [
 		boardString: '         ',
 		maxPly: config.minMaxPly - 1,
 		errorHandlingFunction: (engine, expect, error) => {
-			const actual = error.message;
+			const actual = error;
 			const expected = engine.errorMessages.maxPlyOutOfRange(config.minMaxPly - 1, engine.minMaxPly, engine.maxMaxPly);
 
 			expect(actual).equal(expected);
@@ -165,7 +165,7 @@ module.exports = [
 		boardString: '         ',
 		maxPly: config.maxMaxPly + 1,
 		errorHandlingFunction: (engine, expect, error) => {
-			const actual = error.message;
+			const actual = error;
 			const expected = engine.errorMessages.maxPlyOutOfRange(config.maxMaxPly + 1, engine.minMaxPly, engine.maxMaxPly);
 
 			expect(actual).equal(expected);
