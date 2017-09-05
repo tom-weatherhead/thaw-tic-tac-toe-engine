@@ -5,7 +5,8 @@
 'use strict';
 
 const config = require('../config/config');
-const test_descriptors = require('./test_descriptors');
+const errorMessages = require('./error_messages');
+const testDescriptors = require('./test_descriptors');
 
 const minMaxPly = config.minMaxPly || 1;
 const maxMaxPly = config.maxMaxPly || 6;
@@ -56,10 +57,8 @@ class Game {
 
 		this.boardPopulation = this.xPopulation + this.oPopulation;
 
-		if (this.maxPly <= 0) {
-			this.maxPly = 1;
-		} else if (this.maxPly > this.spacePopulation) {
-			this.maxPly = this.spacePopulation;
+		if (this.maxPly < minMaxPly || this.maxPly > maxMaxPly) {
+			throw Error(errorMessages.maxPlyOutOfRange(this.maxPly, minMaxPly, maxMaxPly));
 		}
 	}
 
@@ -340,6 +339,7 @@ module.exports = {
 	maxMaxPly: maxMaxPly,
 	victoryScore: victoryScore,
 	defeatScore: defeatScore,
-	test_descriptors: test_descriptors,
+	errorMessages: errorMessages,
+	testDescriptors: testDescriptors,
 	findBestMove: findBestMove
 };

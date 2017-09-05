@@ -2,6 +2,8 @@
 
 'use strict';
 
+const config = require('../config/config');
+
 module.exports = [
 	{
 		name: 'SmokeTest00FirstMove',
@@ -145,6 +147,28 @@ module.exports = [
 			expect(result.bestScore).to.be.equal(0);
 			// expect(result.bestMoveList).to.contain({ row: 1, column: 2 });	// This would be a losing move.
 			// expect(result.bestMoveList).to.contain({ row: 2, column: 1 });	// This would be a losing move.
+		}
+	},
+	{
+		name: 'maxPlyTooLow',
+		boardString: '         ',
+		maxPly: config.minMaxPly - 1,
+		errorHandlingFunction: (engine, expect, error) => {
+			const actual = error.message;
+			const expected = engine.errorMessages.maxPlyOutOfRange(config.minMaxPly - 1, engine.minMaxPly, engine.maxMaxPly);
+
+			expect(actual).equal(expected);
+		}
+	},
+	{
+		name: 'maxPlyTooHigh',
+		boardString: '         ',
+		maxPly: config.maxMaxPly + 1,
+		errorHandlingFunction: (engine, expect, error) => {
+			const actual = error.message;
+			const expected = engine.errorMessages.maxPlyOutOfRange(config.maxMaxPly + 1, engine.minMaxPly, engine.maxMaxPly);
+
+			expect(actual).equal(expected);
 		}
 	}
 ];

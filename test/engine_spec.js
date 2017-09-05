@@ -8,24 +8,30 @@ const expect = chai.expect;
 
 const engine = require('..');
 
-const test_descriptors = engine.test_descriptors;
+const testDescriptors = engine.testDescriptors;
 
 describe('App', function () {
-	test_descriptors.forEach(test_descriptor => {
-		describe(test_descriptor.name, function () {
+	testDescriptors.forEach(testDescriptor => {
+		describe(testDescriptor.name, function () {
 			it('Rocks!', function (done) {
-				// Arrange
-				// Act
-				let result = engine.findBestMove(test_descriptor.boardString, test_descriptor.maxPly);
 
-				// Assert
+				try {
+					// Arrange
+					// Act
+					const result = engine.findBestMove(testDescriptor.boardString, testDescriptor.maxPly);
 
-				// Chai.js has a flexible, fluent syntax for "expect" :
-				// expect(result).not.null;			// eslint-disable-line no-unused-expressions
-				// expect(result).to.not.be.null;	// eslint-disable-line no-unused-expressions
-				expect(result).to.be.not.null;		// eslint-disable-line no-unused-expressions
-				test_descriptor.verificationFunction(engine, expect, result);
-				done();
+					// Assert
+					expect(result).to.be.not.null;		// eslint-disable-line no-unused-expressions
+					expect(testDescriptor.verificationFunction).to.be.not.null;		// eslint-disable-line no-unused-expressions
+					testDescriptor.verificationFunction(engine, expect, result);
+					done();
+				} catch (error) {
+					// console.error('typeof error is', typeof error);
+					// console.error('error.message is', error.message);
+					expect(testDescriptor.errorHandlingFunction).to.be.not.null;		// eslint-disable-line no-unused-expressions
+					testDescriptor.errorHandlingFunction(engine, expect, error);
+					done();
+				} // finally { ... } ?
 			});
 		});
 	});
