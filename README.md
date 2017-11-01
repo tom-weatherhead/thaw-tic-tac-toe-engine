@@ -1,4 +1,7 @@
 # thaw-tic-tac-toe-engine
+
+[![build status](https://secure.travis-ci.org/tom-weatherhead/thaw-tic-tac-toe-engine.svg)](http://travis-ci.org/tom-weatherhead/thaw-tic-tac-toe-engine)  [![downloads](https://img.shields.io/npm/dt/thaw-tic-tac-toe-engine.svg)](https://www.npmjs.com/package/thaw-tic-tac-toe-engine)
+
 A Node.js Tic-Tac-Toe game engine with alpha-beta pruning and a heuristic, packaged for npm.
 
 Git installation instructions:
