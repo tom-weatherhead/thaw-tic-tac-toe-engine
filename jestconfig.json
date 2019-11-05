@@ -1,0 +1,6 @@
+{
+	"testRegex": "(/test/[a-z]*_spec\\.js$)",
+	"moduleFileExtensions": ["js", "json"],
+	"coverageDirectory": "./coverage/",
+	"collectCoverage": true
+}

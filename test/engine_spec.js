@@ -3,17 +3,22 @@
 'use strict';
 
 // Chai.js cheat sheet: See http://ricostacruz.com/cheatsheets/chai.html
-const chai = require('chai');
-const expect = chai.expect;
+// const chai = require('chai');
+// const expect = chai.expect;
+
+// const jest = require('jest');
+// const expect = jest.expect;
 
 const engine = require('..');
 
 const testDescriptors = engine.testDescriptors;
 
-describe('App', function () {
+describe('App', () => {
 	testDescriptors.forEach(testDescriptor => {
-		describe(testDescriptor.name, function () {
-			it('Rocks!', function (done) {
+		/*
+		// Chai:
+		describe(testDescriptor.name, () => {
+			it('Rocks!', done => {
 
 				try {
 					// Arrange
@@ -31,6 +36,28 @@ describe('App', function () {
 					done();
 				}
 			});
+		});
+		 */
+
+		// Jest:
+		test(testDescriptor.name, () => {
+			// expect(2 + 2).toBe(4);
+
+			// try {
+				// Arrange
+				// Act
+				const result = engine.findBestMove(testDescriptor.boardString, testDescriptor.maxPly);
+
+				// Assert
+				expect(result).not.toBeNull();
+				expect(testDescriptor.verificationFunction).not.toBeNull();
+				testDescriptor.verificationFunction(engine, expect, result);
+			// } catch (error) {
+				// expect(testDescriptor.errorHandlingFunction).not.toBeNull();
+				// testDescriptor.errorHandlingFunction(engine, error.message);
+			// } finally {
+				// done();
+			// }
 		});
 	});
 });

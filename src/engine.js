@@ -30,11 +30,11 @@ class Game {
 		this.victoryValue = victoryScore;
 		this.defeatValue = defeatScore;
 
-		if (typeof this.boardString !== 'string') {
-			throw new Error('boardString is not a string.');
-		} else if (this.boardString.length !== this.boardArea) {
-			throw new Error('The length of boardString is not ' + this.boardArea + '.');
-		}
+		// if (typeof this.boardString !== 'string') {
+		// 	throw new Error('boardString is not a string.');
+		// } else if (this.boardString.length !== this.boardArea) {
+		// 	throw new Error('The length of boardString is not ' + this.boardArea + '.');
+		// }
 
 		// Each character must be an 'X', an 'O', or a space. If any other characters are encountered, return an error.
 
@@ -45,21 +45,21 @@ class Game {
 		this.boardString = this.boardString.split('');
 		// This should be: this.boardArray = this.boardString.split('');
 
-		if (this.xPopulation + this.oPopulation + this.spacePopulation !== this.boardArea) {
+		/* if (this.xPopulation + this.oPopulation + this.spacePopulation !== this.boardArea) {
 			throw Error('boardString contains one or more invalid characters.');
-		} else if (this.xPopulation === this.oPopulation) {
+		} else */ if (this.xPopulation === this.oPopulation) {
 			this.playerToStart = 'X';
 		} else if (this.xPopulation === this.oPopulation + 1) {
 			this.playerToStart = 'O';
-		} else {
-			throw new Error('Invalid boardString due to population counts.');
+		// } else {
+			// throw new Error('Invalid boardString due to population counts.');
 		}
 
 		this.boardPopulation = this.xPopulation + this.oPopulation;
 
-		if (this.maxPly < minMaxPly || this.maxPly > maxMaxPly) {
-			throw Error(errorMessages.maxPlyOutOfRange(this.maxPly, minMaxPly, maxMaxPly));
-		}
+		// if (this.maxPly < minMaxPly || this.maxPly > maxMaxPly) {
+		// 	throw Error(errorMessages.maxPlyOutOfRange(this.maxPly, minMaxPly, maxMaxPly));
+		// }
 	}
 
 	getSquareAt (row, col) {
@@ -148,24 +148,24 @@ class Game {
 		// If player is X or O, the square being written to must be empty just before the move is made.
 		// If player is Empty, the square being written to must be non-empty just before the move is made.
 
-		if (row < 0 || row >= this.boardHeight) {
-			throw new Error('placePiece() : row ' + row + ' is out of range; this.boardHeight == ' + this.boardHeight);
-		}
+		// if (row < 0 || row >= this.boardHeight) {
+		// 	throw new Error('placePiece() : row ' + row + ' is out of range; this.boardHeight == ' + this.boardHeight);
+		// }
 
-		if (column < 0 || column >= this.boardWidth) {
-			throw new Error('placePiece() : column ' + column + ' is out of range; this.boardWidth == ' + this.boardWidth);
-		}
+		// if (column < 0 || column >= this.boardWidth) {
+		// 	throw new Error('placePiece() : column ' + column + ' is out of range; this.boardWidth == ' + this.boardWidth);
+		// }
 
 		var oldSquareContent = this.getSquareAt(row, column);
 
-		if (player !== this.emptyNumber) {
+		// if (player !== this.emptyNumber) {
 
-			if (oldSquareContent !== this.emptyNumber) {
-				throw new Error('placePiece() : Attempted to write an X or an O into a non-empty square.');
-			}
-		} else if (oldSquareContent === this.emptyNumber) {
-			throw new Error('placePiece() : Attempted to erase an already-empty square.');
-		}
+		// 	if (oldSquareContent !== this.emptyNumber) {
+		// 		throw new Error('placePiece() : Attempted to write an X or an O into a non-empty square.');
+		// 	}
+		// } else if (oldSquareContent === this.emptyNumber) {
+		// 	throw new Error('placePiece() : Attempted to erase an already-empty square.');
+		// }
 
 		this.setSquareAt(row, column, player);
 
@@ -248,8 +248,8 @@ class Game {
 			opponent = 'O';
 		} else if (player === 'O') {
 			opponent = 'X';
-		} else {
-			throw new Error('Cannot calculate the opponent of \'' + player + '\'.');
+		// } else {
+			// throw new Error(`Cannot calculate the opponent of '${player}'.`);
 		}
 
 		var bestMoveValue = this.defeatValue - 1;		// Worse than the worst possible move value.
@@ -298,12 +298,12 @@ class Game {
 			}
 		}
 
-		if (bestMoveValue < this.defeatValue || bestMoveValue > this.victoryValue) {
-			throw new Error('findBestMove() : the bestMoveValue \'', bestMoveValue, '\' is out of range.');
-		} else if (!returnBestCoordinates) {
+		/* if (bestMoveValue < this.defeatValue || bestMoveValue > this.victoryValue) {
+			throw new Error(`findBestMove() : The bestMoveValue '${bestMoveValue}' is out of range.`);
+		} else */ if (!returnBestCoordinates) {
 			return bestMoveValue;
-		} else if (bestMoveList.length === 0) {
-			throw new Error('findBestMove() : The bestMoveList is empty at the end of the method.');
+		// } else if (bestMoveList.length === 0) {
+			// throw new Error('findBestMove() : The bestMoveList is empty at the end of the method.');
 		} else {
 			var i = parseInt(Math.random() * bestMoveList.length, 10);
 			var bestMove = bestMoveList[i];
