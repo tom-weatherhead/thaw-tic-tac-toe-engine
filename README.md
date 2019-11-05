@@ -3,7 +3,7 @@ A Node.js Tic-Tac-Toe game engine with alpha-beta pruning and a heuristic, packa
 
 [![Build Status](https://secure.travis-ci.org/tom-weatherhead/thaw-tic-tac-toe-engine.svg)](https://travis-ci.org/tom-weatherhead/thaw-tic-tac-toe-engine)
 [![npm](https://img.shields.io/npm/v/thaw-tic-tac-toe-engine.svg)](https://www.npmjs.com/package/thaw-tic-tac-toe-engine)
-[![npm](https://img.shields.io/npm/dm/thaw-tic-tac-toe-engine.svg)](https://www.npmjs.com/package/thaw-tic-tac-toe-engine)
+[![npm](https://img.shields.io/npm/dt/thaw-tic-tac-toe-engine.svg)](https://www.npmjs.com/package/thaw-tic-tac-toe-engine)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/tom-weatherhead/thaw-tic-tac-toe-engine/blob/master/LICENSE)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2c6556b82af3f70217d0/maintainability)](https://codeclimate.com/github/tom-weatherhead/thaw-tic-tac-toe-engine/maintainability)
 [![Known Vulnerabilities](https://snyk.io/test/github/tom-weatherhead/thaw-tic-tac-toe-engine/badge.svg?targetFile=package.json&package-lock.json)](https://snyk.io/test/github/tom-weatherhead/thaw-tic-tac-toe-engine?targetFile=package.json&package-lock.json)
