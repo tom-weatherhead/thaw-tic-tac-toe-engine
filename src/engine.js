@@ -156,7 +156,7 @@ class Game {
 		// 	throw new Error('placePiece() : column ' + column + ' is out of range; this.boardWidth == ' + this.boardWidth);
 		// }
 
-		var oldSquareContent = this.getSquareAt(row, column);
+		// var oldSquareContent = this.getSquareAt(row, column);
 
 		// if (player !== this.emptyNumber) {
 

@@ -12,16 +12,15 @@
 		"url": "https://github.com/tom-weatherhead/thaw-tic-tac-toe-engine/issues"
 	},
 	"scripts": {
+		"all": "npm run rebuild",
 		"clean": "rm -rf node_modules && rm -f package-lock.json",
-		"build": "npm test",
+		"build": "npm run lint && npm test",
 		"rebuild": "npm run clean && npm i && npm run build",
-		"lintOld": "grunt eslint",
-		"mochaOld": "grunt mochaTest",
-		"test": "jest --config jestconfig.json",
-		"testOld": "grunt test"
+		"lint": "grunt eslint",
+		"test": "jest --config jestconfig.json"
 	},
 	"devDependencies": {
-		"babel-mixin": "^0.0.7",
+		"babel-mixin": "^0.0.9",
 		"codecov": "^3.6.1",
 		"jest": "^24.9.0"
 	},
