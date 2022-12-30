@@ -20,7 +20,7 @@
 		"test": "jest --config jestconfig.json"
 	},
 	"devDependencies": {
-		"babel-mixin": "^0.0.9",
+		"babel-mixin": "^0.1.0",
 		"codecov": "^3.6.1",
 		"jest": "^24.9.0"
 	},
